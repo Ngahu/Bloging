@@ -92,3 +92,5 @@ ENV/
 
 #Development
 .idea/
+static_cdn/
+media_cdn/
