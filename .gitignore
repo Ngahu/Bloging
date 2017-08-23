@@ -94,3 +94,4 @@ ENV/
 .idea/
 static_cdn/
 media_cdn/
+mysite/Posts/static/media/
