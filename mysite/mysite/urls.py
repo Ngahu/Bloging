@@ -24,3 +24,8 @@ urlpatterns = [
     url(r'^Blog/', include('Posts.urls', namespace='Posts')),
 ]
 
+
+if settings.DEBUG:
+    """Confirming whether the debug is on """
+    urlpatterns +=  static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+    urlpatterns +=  static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
