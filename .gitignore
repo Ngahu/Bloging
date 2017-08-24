@@ -95,3 +95,5 @@ ENV/
 static_cdn/
 media_cdn/
 mysite/Posts/static/media/
+
+/mysite/db.sqlite3
