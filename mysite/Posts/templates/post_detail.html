@@ -4,7 +4,12 @@
 
 {% block content %}
 
-<h1> details page  :: {{instance.title}} <br></h1>
+<h1> details page  :: {{instance.title}} <br>
+
+<small class="pull-right">
+        {% if instance.draft %} <span style="color:red">Draft</span> {% endif %}
+    </small>
+</h1>
 
 
 
@@ -16,7 +21,8 @@
     {% endif %}
 
     {{instance.content |linebreaks}} <br>
-    {{instance.timestamp}} <br>
+    {{instance.publish}} <br>
+
     {% if instance.user.get_full_name %}
 <h2>Author:   {{instance.user.get_full_name}} </h2>
     {% endif %}

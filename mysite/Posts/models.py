@@ -23,6 +23,8 @@ class Post(models.Model):
                               width_field= "width_field",
                               height_field= "height_field")
     content = models.TextField(max_length=500)
+    draft = models.BooleanField(default=False)
+    publish = models.DateField(auto_now=False,auto_now_add=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 

@@ -69,7 +69,7 @@
                 <p class="lead">
                     Author:   {{obj.user}}
                 </p>
-                 <p><span class="glyphicon glyphicon-time"></span> Posted   {{obj.timestamp |timesince}}  Ago </p>
+                 <p><span class="glyphicon glyphicon-time"></span> Posted   {{obj.publish}}   </p>
                 <hr>
                 {% if obj.image %}
                 <img src='{{ obj.image.url }}' alt="" class="img-responsive">
