@@ -17,8 +17,9 @@
 
     {{instance.content |linebreaks}} <br>
     {{instance.timestamp}} <br>
-
-
+    {% if instance.user.get_full_name %}
+<h2>Author:   {{instance.user.get_full_name}} </h2>
+    {% endif %}
 
 </div>
 

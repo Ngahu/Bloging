@@ -15,6 +15,7 @@ def post_create(request):
     form = PostForm(request.POST or None,request.FILES or None)
     if  form.is_valid():
         instance = form.save(commit=False)
+        instance.user = request.user
         #print form.cleaned_data.get("title") ##checking if the form is complete ok
         instance.save()
         return HttpResponseRedirect(instance.get_absolute_url()) #incharge of the redirecting after the form is successfuly filled

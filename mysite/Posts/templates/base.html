@@ -67,7 +67,7 @@
                     <a href=' {{ obj.get_absolute_url }} '> {{obj.title}}  </a>
                 </h2>
                 <p class="lead">
-                    <!--by <a href=""> UserName Here</a> -->
+                    Author:   {{obj.user}}
                 </p>
                  <p><span class="glyphicon glyphicon-time"></span> Posted   {{obj.timestamp |timesince}}  Ago </p>
                 <hr>
