@@ -20,7 +20,7 @@
     <img src='{{ instance.image.url }}' alt="" class="img-responsive">
     {% endif %}
 
-    {{instance.content |linebreaks}} <br>
+    {{instance.content | linebreaks}} <br>
     {{instance.publish}} <br>
 
     {% if instance.user.get_full_name %}
