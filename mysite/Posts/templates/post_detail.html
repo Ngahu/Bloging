@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h1> details page  for:</h1>
+<h1> details page  :: {{instance.title}} <br></h1>
 
 
 
@@ -14,14 +14,15 @@
     {% if instance.image %}
     <img src='{{ instance.image.url }}' alt="" class="img-responsive">
     {% endif %}
-     {{instance.title}} <br>
+
     {{instance.content |linebreaks}} <br>
     {{instance.timestamp}} <br>
 
 
+
 </div>
 
-
+<button class="btn btn-warning" href=" " > EDIT</button>
 
 
 
