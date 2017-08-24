@@ -41,6 +41,10 @@
 <a href="https://twitter.com/home?status= {{ instance.content|truncatechars:80|urlify }}  %20 {{ request.build_absolute_uri }}"> Facebook</a>
 <a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a>
 
+<div>
+    {{ instance.comment_set.all }}
+</div>
+
 
 {% endblock content %}
 
