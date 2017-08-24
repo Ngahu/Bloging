@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from urllib import quote_plus
 from django.shortcuts import render ,get_object_or_404,redirect
 from .models import Post
 from .forms import PostForm
@@ -25,8 +25,10 @@ def post_create(request):
 
 def post_detail(request,id=None):
     instance = get_object_or_404(Post,id=id)
+    share_url = quote_plus(instance.content)
     context = {
         "instance":instance,
+        "share_url":share_url,
     }
     return render(request,"post_detail.html",context)
 
