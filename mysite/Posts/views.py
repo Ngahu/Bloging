@@ -6,7 +6,7 @@ from .models import Post
 from .forms import PostForm
 from django.http import HttpResponseRedirect,Http404
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-
+from django.utils import timezone
 
 
 def post_create(request):
@@ -28,6 +28,9 @@ def post_create(request):
 
 def post_detail(request,id=None):
     instance = get_object_or_404(Post,id=id)
+    if instance.draft or instance.publish > timezone.now().date():
+        if not request.user.is_staff or not request.user.is_superuser:
+            raise Http404
     share_url = quote_plus(instance.content)
     context = {
         "instance":instance,
@@ -37,7 +40,9 @@ def post_detail(request,id=None):
 
 
 def post_list(request):
-    queryset_list = Post.objects.all()
+    queryset_list = Post.objects.active()
+    if request.user.is_staff or request.user.is_superuser:
+        queryset_list = Post.objects.all()
     paginator = Paginator(queryset_list, 5) #show 20 blog-posts per page
     page_request_var = "page"
     page = request.GET.get(page_request_var)
