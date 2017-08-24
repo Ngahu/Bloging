@@ -71,7 +71,9 @@
                 </p>
                  <p><span class="glyphicon glyphicon-time"></span> Posted   {{obj.timestamp |timesince}}  </p>
                 <hr>
-                <img src='{{ instance.image.url}}' alt="" class="img-responsive">
+                {% if obj.image %}
+                <img src='{{ obj.image.url }}' alt="" class="img-responsive">
+                  {% endif %}
                   <p> {{obj.content|linebreaks|truncatechars:500 }} </p>
                 <a class="btn btn-primary" href='{{ obj.get_absolute_url }}'>Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
