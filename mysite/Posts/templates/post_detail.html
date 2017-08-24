@@ -42,7 +42,18 @@
 <a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a>
 
 <div>
-    {{ instance.comment_set.all }}
+
+    <p class="lead"> Comments </p>
+
+    {% for comment  in comments %}
+                <div class="">
+                    {{ comment.content }}
+                    <br>
+                   <small> Via {{ comment.user }} | {{ comment.timestamp|timesince }} Ago </small>
+                      <hr>
+                </div>
+
+        {% endfor %}
 </div>
 
 
