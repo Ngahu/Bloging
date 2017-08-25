@@ -8,6 +8,8 @@ from django.conf import settings
 from django.utils import timezone
 from markdown_deux  import markdown
 from django.utils.safestring import mark_safe
+from  comments.models import Comment
+
 
 class PostManager(models.Manager):
     def active(self,*args,**kwargs):
@@ -54,6 +56,12 @@ class Post(models.Model):
         content = self.content
         markdown_text = markdown(content)
         return mark_safe(markdown_text)
+
+    @property
+    def comments(self):
+        instance = self
+        qs = Comment.object.filter_by_instance(instance)
+        return qs
 
 
 #A recursive function to check whether the slug has already been created or not

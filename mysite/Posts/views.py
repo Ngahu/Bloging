@@ -8,7 +8,6 @@ from django.http import HttpResponseRedirect,Http404
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Q
-from django.contrib.contenttypes.models import ContentType
 
 from comments.models import Comment
 
@@ -36,9 +35,8 @@ def post_detail(request,id=None):
         if not request.user.is_staff or not request.user.is_superuser:
             raise Http404
     share_url = quote_plus(instance.content)
-    content_type = ContentType.objects.get_for_model(Post)
-    obj_id = instance.id
-    comments = Comment.objects.filter(content_type=content_type,object_id = obj_id)
+    comments = Comment.objects.filter_by_instance(instance) #instance.comments
+   # comments = Comment.objects.filter(user=request.user) #all the user comments
 
     context = {
         "instance":instance,
