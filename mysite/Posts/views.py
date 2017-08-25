@@ -13,8 +13,6 @@ from django.contrib.contenttypes.models import ContentType
 from comments.models import Comment
 
 
-
-
 def post_create(request):
     if not request.user.is_staff or not request.user.is_superuser:
         raise Http404
@@ -42,17 +40,13 @@ def post_detail(request,id=None):
     obj_id = instance.id
     comments = Comment.objects.filter(content_type=content_type,object_id = obj_id)
 
-
-
     context = {
         "instance":instance,
         "share_url":share_url,
         "comments":comments,
     }
 
-
     return render(request,"post_detail.html",context)
-
 
 def post_list(request):
     queryset_list = Post.objects.active()
@@ -78,7 +72,6 @@ def post_list(request):
     except EmptyPage:
         # if the page is out of range (eg  9999), deliver last page of this results
         queryset = paginator.page(paginator.num_pages)
-
 
 
     context = {
