@@ -8,9 +8,9 @@ from django.http import HttpResponseRedirect,Http404
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Q
-
+from  comments.forms import CommentForm
 from comments.models import Comment
-
+from django.contrib.contenttypes.models import ContentType
 
 def post_create(request):
     if not request.user.is_staff or not request.user.is_superuser:
@@ -35,6 +35,29 @@ def post_detail(request,id=None):
         if not request.user.is_staff or not request.user.is_superuser:
             raise Http404
     share_url = quote_plus(instance.content)
+
+    initial_data = {
+        "content_type":instance.get_content_type,
+        "object_id":instance.id,
+    }
+    form = CommentForm(request.POST or None, initial=initial_data)
+    if form.is_valid():
+        c_type =  form.cleaned_data.get("content_type")
+        content_type = ContentType.objects.get(model=c_type)
+        object_id =form.cleaned_data.get('object_id')
+        content_data = form.cleaned_data.get("content")
+        new_comment ,created =Comment.objects.get_or_create(
+            user=request.user,
+            content_type = content_type ,
+            object_id = object_id ,
+            content = content_data,
+        )
+
+        #if created:
+         #   print ("Yeah it worked")
+        #print (form.cleaned_data)
+
+
     comments = Comment.objects.filter_by_instance(instance) #instance.comments
    # comments = Comment.objects.filter(user=request.user) #all the user comments
 
@@ -42,6 +65,7 @@ def post_detail(request,id=None):
         "instance":instance,
         "share_url":share_url,
         "comments":comments,
+        "comment_form":form,
     }
 
     return render(request,"post_detail.html",context)

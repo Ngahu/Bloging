@@ -1,64 +1,82 @@
 {% extends 'base.html' %}
 {% load urlify %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<h1> details page  :: {{instance.title}} <br>
-
-<small class="pull-right">
-        {% if instance.draft %} <span style="color:red">Draft</span> {% endif %}
-    </small>
-</h1>
-
-
-
-
-
-<div class="col-sm-6 col-sm-offset-3">
-    {% if instance.image %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="centt">
+                {{instance.title}}
+                <p>
+                     {% if instance.image %}
     <img src='{{ instance.image.url }}' alt="" class="img-responsive">
     {% endif %}
 
-    {{instance.content | linebreaks}} <br>
-    {{instance.publish}} <br>
-
-    {% if instance.user.get_full_name %}
+                </p>
+                {{instance.publish}}
+                <div class="tag">
+                    {% if instance.user.get_full_name %}
 <h2>Author:   {{instance.user.get_full_name}} </h2>
     {% endif %}
+                    <small class="pull-right">
+        {% if instance.draft %} <span style="color:red">Draft</span> {% endif %}
+    </small>
+                </div>
 
-</div>
-
-<button class="btn btn-warning" href=" " > EDIT</button>
-
-  <br>
-
-
-<a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a>
-<!--<a href="https://twitter.com/home?status= {{ instance.content|truncatechars:80|urlify }}  %20 {{ request.build_absolute_uri }}"> Facebook</a> -->
-<a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a>
-
-
-
-<div class="row">
-<div class="  post-detail-item">
+                <div class="  post-detail-item">
 {{ instance.get_markdown }}
 
 
-    {{ instance.Comments.all }}
+
 
 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a>
+<a href="https://twitter.com/home?status= {{ instance.content|truncatechars:80|urlify }}  %20 {{ request.build_absolute_uri }}"> Facebook</a>
+<a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a> -->
+
+
+
+
+</div>
+
+
+<div class="row">
+
     </div>
 
 
     <p class= "lead " > Comments </p>
+<form action="." method="POST"> {% csrf_token %}
+{{ comment_form |crispy }}
+    <input type="submit" value="Post Comment" class="btn btn-default">
+</form>
 
     {% for comment  in comments %}
 
-                    {{ comment.content }}
-                    <br>
-                   <small> Via {{ comment.user }} | {{ comment.timestamp|timesince }} Ago </small>
-                      <hr>
+
+<blockquote>
+    <p> {{ comment.content }} </p>
+    <footer>Via  {{ comment.user }} | {{ comment.timestamp|timesince }} Ago </footer>
+</blockquote>
+
 
 
         {% endfor %}

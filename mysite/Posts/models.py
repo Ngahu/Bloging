@@ -9,7 +9,7 @@ from django.utils import timezone
 from markdown_deux  import markdown
 from django.utils.safestring import mark_safe
 from  comments.models import Comment
-
+from django.contrib.contenttypes.models import ContentType
 
 class PostManager(models.Manager):
     def active(self,*args,**kwargs):
@@ -62,6 +62,13 @@ class Post(models.Model):
         instance = self
         qs = Comment.object.filter_by_instance(instance)
         return qs
+
+    @property
+    def get_content_type(self):
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+        return content_type
+
 
 
 #A recursive function to check whether the slug has already been created or not
