@@ -60,7 +60,7 @@ class Post(models.Model):
     @property
     def comments(self):
         instance = self
-        qs = Comment.object.filter_by_instance(instance)
+        qs = Comment.objects.filter_by_instance(instance)
         return qs
 
     @property

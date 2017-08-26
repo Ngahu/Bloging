@@ -44,21 +44,22 @@ def post_detail(request,id=None):
     if form.is_valid():
         c_type =  form.cleaned_data.get("content_type")
         content_type = ContentType.objects.get(model=c_type)
-        object_id =form.cleaned_data.get('object_id')
+        obj_id =form.cleaned_data.get("object_id")
         content_data = form.cleaned_data.get("content")
         new_comment ,created =Comment.objects.get_or_create(
             user=request.user,
             content_type = content_type ,
-            object_id = object_id ,
+            object_id = obj_id ,
             content = content_data,
-        )
+            )
+        return HttpResponseRedirect(new_comment.content_object.get_absolute_url())
 
         #if created:
          #   print ("Yeah it worked")
         #print (form.cleaned_data)
 
 
-    comments = Comment.objects.filter_by_instance(instance) #instance.comments
+    comments = instance.comments #Comment.objects.filter_by_instance(instance) #
    # comments = Comment.objects.filter(user=request.user) #all the user comments
 
     context = {

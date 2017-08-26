@@ -21,7 +21,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(models.Model):
-    user =  user = models.ForeignKey(settings.AUTH_USER_MODEL,default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,default=1)
     content_type= models.ForeignKey(ContentType,on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type','object_id')
@@ -29,7 +29,12 @@ class Comment(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     # post = models.ForeignKey(Post)
 
+    parent =models.ForeignKey("self",null=True,blank=True)
+
     objects = CommentManager()
+
+    class Meta:
+        ordering = ['-timestamp']
 
 
     def __unicode__(self):
@@ -37,3 +42,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.user.username)
+
+    def children(self): #resplies
+        return Comment.objects.filter(parent=self)
+
+    @property
+    def  is_parent(self):
+        if self.parent is not None:
+            return False
+        return True
+

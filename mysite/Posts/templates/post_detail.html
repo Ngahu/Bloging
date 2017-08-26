@@ -44,23 +44,12 @@
 
 
 
-
-
-
-
 <!--<a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a>
 <a href="https://twitter.com/home?status= {{ instance.content|truncatechars:80|urlify }}  %20 {{ request.build_absolute_uri }}"> Facebook</a>
 <a href="https://twitter.com/home?status= {{ share_url }}  %20 {{ request.build_absolute_uri }}"> Twitter</a> -->
 
 
 
-
-</div>
-
-
-<div class="row">
-
-    </div>
 
 
     <p class= "lead " > Comments </p>
@@ -75,6 +64,12 @@
 <blockquote>
     <p> {{ comment.content }} </p>
     <footer>Via  {{ comment.user }} | {{ comment.timestamp|timesince }} Ago </footer>
+
+    <form action="." method="POST"> {% csrf_token %}
+{{ comment_form |crispy }}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+    <input type="submit" value="Reply" class="btn btn-default">
+</form>
 </blockquote>
 
 
